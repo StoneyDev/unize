@@ -1,6 +1,9 @@
 # IDE
 .idea
 
+#Fake data
+data.json
+
 # Logs
 logs
 *.log
