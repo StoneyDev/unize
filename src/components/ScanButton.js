@@ -1,7 +1,6 @@
 import React from 'react';
-import { Redirect, Link, Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Plus } from 'react-feather';
-import Scanner from "./Scanner";
 
 const ScanButton = () => {
   return (

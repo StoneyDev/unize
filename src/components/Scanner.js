@@ -1,100 +1,98 @@
-import React, { Component } from 'react';
+import React, {useEffect, useState} from 'react';
+import { Link, useHistory } from "react-router-dom";
+import { RefreshCw, Zap } from "react-feather";
+import Quagga from '@ericblade/quagga2';
 
-class Scanner extends Component {
+const Scanner = () => {
+  let history = useHistory()
+  const [ videoInit, setVideoInit ] = useState(false);
+  const [ videoError, setVideoError ] = useState(false);
 
-  constructor(props) {
-    super(props);
-    this.state = { cameraIndex: 0 };
-    this.switchCamera = this.switchCamera.bind(this);
-  }
+  const onInitSuccess = () => {
+    Quagga.start();
+    setVideoInit(true);
+  };
 
-  componentDidMount() {
-    this.setupScanner();
-  }
+  const onDetected = (result) => {
+    const regex = /_/g;
+    const regexFormat = (result.codeResult.format).replace(regex, '');
 
-  setupScanner() {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    Quagga.offDetected(onDetected);
 
-    const Zxing = require('@zxing/library');
+    let existing = localStorage.getItem('list');
+    existing = existing ? JSON.parse(existing) : [];
 
-    this.codeReader = new Zxing.BrowserBarcodeReader();
-    this.codeReader.getVideoInputDevices()
-      .then((cameras) => {
-        if (!cameras || !cameras.length) {
-          this.setState({
-            camerasCount: cameras.length,
-            error: true
-          });
-          return;
-        } else {
-          this.setState({
-            camerasCount: cameras.length
-          });
+    const data = {
+      "id": result.codeResult.code,
+      "format": regexFormat,
+      "company": "Carrefour"
+    };
+
+    existing.push(data);
+    localStorage.setItem('list', JSON.stringify(existing));
+
+    Quagga.stop();
+    history.push("/");
+  };
+
+  // const toggleTorch = () => {
+  //   const torch = !this.state.torch;
+  //   this.setState({ torch });
+  //   const track = Quagga.CameraAccess.getActiveTrack();
+  //   if (track && typeof track.getCapabilities === 'function') {
+  //     track.applyConstraints({ advanced: [ { torch } ] });
+  //   }
+  // }
+
+  useEffect(() => {
+    window.onpopstate  = (e) => {
+      Quagga.stop();
+    };
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      Quagga.init({
+        inputStream : {
+          name : "Live",
+          type : "LiveStream",
+          target: document.querySelector('#video')
+        },
+        numOfWorkers: 1,
+        locate: true,
+        decoder : {
+          readers : ['ean_reader', 'code_128_reader']
         }
-
-        this.codeReader.decodeFromInputVideoDevice(
-          cameras[this.state.cameraIndex].deviceId,
-          this.refs.video
-        )
-          .then((result) => {
-            this.onProductScanned(result.text);
-          })
-          .catch((err) => {
-            console.warn(err);
-          })
-      })
-      .catch((err) => {
-        console.warn(err);
-        this.setState({ error: true });
-      })
-  }
-
-  onProductScanned(barCode) {
-    // Router.push({
-    //     pathname: '/Product',
-    //     query: { barCode }
-    // });
-  }
-
-  switchCamera() {
-    this.setState({
-      cameraIndex: this.state.cameraIndex === 0 ? 1 : 0
-    }, () => {
-      this.codeReader.reset();
-      this.setupScanner();
-    })
-
-  }
-
-  switchCameraButton() {
-    return (
-      <div
-        className={'Scanner--switchCamera'}
-        onClick={this.switchCamera}>
-        <i className={'fas fa-sync'} />
-      </div>
-    )
-  }
-
-  render() {
-
-    if (this.state.error) {
-      return (
-        <div className={'Scanner--container'}>
-          <p>Erreur lors de l'initialisation de la camera</p>
-        </div>
-      );
+      }, (err) => {
+        if (err) {
+          setVideoError(true);
+          return;
+        }
+        onInitSuccess();
+      });
+      Quagga.onDetected(onDetected);
     }
+  }, []);
 
-    return (
-      <div className={'Scanner--container'}>
-        {this.switchCameraButton()}
-        <video ref={'video'} className={'Scanner--video'} />
+  return (
+    <div>
+      <div className="Scanner--container">
+        <div className="Scanner--switchCamera">
+          <RefreshCw />
+        </div>
+        {videoError ?
+          <div>
+            <div>
+              <h2>Nous ne trouvons pas votre appareil photo</h2>
+              <p>Vérifier que cette dernière est bien connectée ou que les accès sont bien autorisés</p>
+            </div>
+          </div>
+          :
+          <div>
+            <div className="Scanner--video" id="video" />
+          </div>
+        }
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Scanner;
