@@ -5,12 +5,14 @@ import App from './components/App';
 import './styles/main.scss'
 import * as serviceWorker from './serviceWorker';
 import Scanner from "./components/Scanner";
+import Shop from "./components/Shop";
 
 const routing = (
   <Router>
     <div>
       <Route exact path="/" component={App} />
-      <Route path="/scanner" component={Scanner} />
+      <Route path="/scanner/:name/:img" component={Scanner} />
+      <Route path="/shop" component={Shop} />
     </div>
   </Router>
 );

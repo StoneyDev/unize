@@ -8,7 +8,7 @@ const App = () => {
     localStorage.clear();
   }
   return (
-    <div >
+    <div className="px-4 h-100">
       <Card />
       <ScanButton />
       <button onClick={clear}>Clear</button>

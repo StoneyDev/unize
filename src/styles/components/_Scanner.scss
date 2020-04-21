@@ -1,12 +1,33 @@
 .Scanner {
   &--container {
-    width: 100%;
-    height: 100%;
+    background-color: #504D4D;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+
+    @media all and (min-width: 720px) {
+      height: 85%;
+    }
   }
 
-  &--video {
-    position: fixed;
-    object-fit: cover;
+  &--message {
+    height: 25%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media all and (min-width: 720px) {
+      height: 15%;
+    }
+  }
+
+  &--errorIcon {
+    color: #fff;
+    width: 180px;
   }
 
   &--switchCamera {
@@ -22,5 +43,20 @@
     height: 56px;
     background-color: #fff;
     border-radius: 28px;
+  }
+}
+
+#video video {
+  position: absolute;
+  width: 100%;
+  height: 75%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+
+  @media all and (min-width: 720px) {
+    height: 85%;
   }
 }
