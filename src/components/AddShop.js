@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const Shop = () => {
+const AddShop = () => {
 
   const listShop = [
     {
@@ -13,35 +13,35 @@ const Shop = () => {
       name: 'Intermarché'
     },
     {
-      url: 'super_u',
+      url: 'super_u.png',
       name: 'Super U'
     },
     {
-      url: 'leclerc',
-      name: 'Leclerc'
+      url: 'e-leclerc.svg',
+      name: 'E Leclerc'
     },
     {
-      url: 'monoprix',
+      url: 'monoprix.svg',
       name: 'Monoprix'
     },
     {
-      url: 'intersport',
+      url: 'intersport.svg',
       name: 'Intersport'
     },
     {
-      url: 'auchan',
+      url: 'auchan.svg',
       name: 'Auchan'
     },
     {
-      url: 'picard',
+      url: 'picard.png',
       name: 'Picard'
     },
     {
-      url: 'geant_casino',
+      url: 'geant_casino.svg',
       name: 'Géant Casino'
     },
     {
-      url: 'kiabi',
+      url: 'kiabi.png',
       name: 'Kiabi'
     },
     {
@@ -77,4 +77,4 @@ const Shop = () => {
   )
 }
 
-export default Shop;
+export default AddShop;

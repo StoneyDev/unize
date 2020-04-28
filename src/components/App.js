@@ -1,19 +1,19 @@
 import React from 'react';
-import Card from './Card';
+import CardList from './CardList';
 import ScanButton from "./ScanButton";
+import { Container } from "reactstrap";
 
-const App = () => {
+const test = () => {
+  localStorage.clear();
+}
 
-  const clear = () => {
-    localStorage.clear();
-  }
-  return (
-    <div className="px-4 h-100">
-      <Card />
-      <ScanButton />
-      <button onClick={clear}>Clear</button>
-    </div>
-  );
-};
+const App = () => (
+  <Container>
+    <h1 className="font-weight-bold py-4">Unize</h1>
+    <CardList />
+    <ScanButton />
+    <button onClick={test}>clear</button>
+  </Container>
+);
 
 export default App;

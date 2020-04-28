@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import App from './components/App';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/main.scss'
 import * as serviceWorker from './serviceWorker';
 import Scanner from "./components/Scanner";
-import Shop from "./components/Shop";
+import AddShop from "./components/AddShop";
+import CardDetail from "./components/CardDetail";
 
 const routing = (
   <Router>
     <div>
       <Route exact path="/" component={App} />
-      <Route path="/scanner/:name/:img" component={Scanner} />
-      <Route path="/shop" component={Shop} />
+      <Route path="/scanner/(edit)?/:name/:img?" component={Scanner} />
+      <Route path="/shop" component={AddShop} />
+      <Route path="/card/:id" component={CardDetail} />
     </div>
   </Router>
 );

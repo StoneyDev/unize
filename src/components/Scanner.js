@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { useHistory } from "react-router-dom";
-import { RefreshCw, Zap, CameraOff } from "react-feather";
+import { Link, useHistory } from "react-router-dom";
+import { X, Zap, CameraOff } from "react-feather";
 import Quagga from '@ericblade/quagga2';
 
 function getMedian(arr) {
@@ -18,8 +18,9 @@ function getMedianOfCodeErrors(decodedCodes) {
 }
 
 const Scanner = (props) => {
-  let history = useHistory()
+  let history = useHistory();
   const [ videoError, setVideoError ] = useState(false);
+  const [ light, setLight] = useState(true);
 
   const onInitSuccess = () => {
     Quagga.start();
@@ -30,16 +31,23 @@ const Scanner = (props) => {
     let existing = localStorage.getItem('list');
     existing = existing ? JSON.parse(existing) : [];
 
-    // if Quagga is at least 85% certain that it read correctly, then accept the code.
+    // if Quagga is at least 90% certain that it read correctly, then accept the code.
     const err = getMedianOfCodeErrors(result.codeResult.decodedCodes);
-    if (err < 0.15) {
-      const data = {
-        "id": result.codeResult.code,
-        "format": format,
-        "shop": props.match.params.name,
-        "img": props.match.params.img ? props.match.params.img : 'default.svg'
-      };
-      existing.push(data);
+    if (err < 0.1) {
+      if (props.match.params[0]) {
+        const search = existing.find(val => val.id === props.match.params.name);
+        search.id = result.codeResult.code;
+        search.format = format; // In case Quaggajs scans the wrong barcode.
+      } else {
+        const data = {
+          "id": result.codeResult.code,
+          "format": format,
+          "name": props.match.params.name,
+          "img": props.match.params.img ? props.match.params.img : 'default.svg'
+        };
+        existing.push(data);
+      }
+
       localStorage.setItem('list', JSON.stringify(existing));
 
       Quagga.offDetected(onDetected);
@@ -48,29 +56,18 @@ const Scanner = (props) => {
     }
   };
 
-  // const toggleTorch = () => {
-  //   const torch = !this.state.torch;
-  //   this.setState({ torch });
-  //   const track = Quagga.CameraAccess.getActiveTrack();
-  //   if (track && typeof track.getCapabilities === 'function') {
-  //     track.applyConstraints({ advanced: [ { torch } ] });
-  //   }
-  // }
-
-  // function check() {
-  //   navigator.mediaDevices.getUserMedia({
-  //     video: true
-  //   },)
-  //     .then(() => {
-  //       return true;
-  //     })
-  //     .catch(() => {
-  //       return false;
-  //     });
-  // }
+  const toggleTorch = () => {
+    // Bug ?: Can't switch off the flashlight when the flux is running
+    // MDN: A Boolean defining whether the fill light is continuously connected, meaning it stays on as long as the track is active.
+    setLight(!light);
+    const track = Quagga.CameraAccess.getActiveTrack();
+    if (track && typeof track.getCapabilities === 'function') {
+      track.applyConstraints({ advanced: [ { torch: light } ] });
+    }
+  }
 
   useEffect(() => {
-    window.onpopstate  = (e) => {
+    window.onpopstate = () => {
       Quagga.stop();
     };
 
@@ -81,7 +78,7 @@ const Scanner = (props) => {
           type : "LiveStream",
           target: document.querySelector('#video')
         },
-        numOfWorkers: 2,
+        numOfWorkers: navigator.hardwareConcurrency,
         locate: true,
         decoder : {
           readers : ['ean_reader', 'code_128_reader']
@@ -92,6 +89,7 @@ const Scanner = (props) => {
           return;
         }
         onInitSuccess();
+
       });
       Quagga.onDetected(onDetected);
     } else {
@@ -100,24 +98,29 @@ const Scanner = (props) => {
   }, []);
 
   return (
-    <div className="h-100">
-      <div className="Scanner--switchCamera">
-        <RefreshCw />
-      </div>
-      <div className="Scanner--container">
+    <div className="scanner">
+      <div className="scanner__renderVideo">
         {videoError ?
-          <div>
-            <CameraOff className="Scanner--errorIcon" />
-          </div>
+          <CameraOff className="scanner__errorIcon" />
           :
-          <div className="Scanner--video" id="video" />
+          <div id="video" />
         }
       </div>
-      <div className="Scanner--message">
+      <div className="scanner__message">
+        <Link to="/" className="button__close">
+          <X />
+        </Link>
+
+        {<button onClick={toggleTorch}>Torche</button>}
+
         {videoError ?
-          <h3>Impossible d’accèder à votre caméra !</h3>
+          <p>
+            <strong>Impossible d’accèder à votre caméra !</strong>
+          </p>
           :
-          <h3>Scanner votre carte fidélité</h3>
+          <p>
+            <strong>Scanner votre carte fidélité</strong>
+          </p>
         }
       </div>
     </div>

@@ -1,62 +1,67 @@
-.Scanner {
-  &--container {
-    background-color: #504D4D;
-    height: 75%;
+.scanner {
+  height: 100%;
+
+  &__renderVideo {
+    background-color: $secondary-color;
+    height: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
 
     @media all and (min-width: 720px) {
       height: 85%;
     }
+
+    video {
+      position: absolute;
+      width: 100%;
+      height: 90%;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+
+      @media all and (min-width: 720px) {
+        height: 85%;
+      }
+    }
   }
 
-  &--message {
-    height: 25%;
+  &__errorIcon {
+    color: $text;
+    width: 150px;
+    height: auto;
+  }
+
+  &__message {
+    height: 20%;
     text-align: center;
     display: flex;
+    flex-direction: column;
+    background: #fff;
     justify-content: center;
     align-items: center;
+    border-top-left-radius: $border-radius-lg;
+    border-top-right-radius: $border-radius-lg;
 
     @media all and (min-width: 720px) {
       height: 15%;
     }
   }
 
-  &--errorIcon {
-    color: #fff;
-    width: 180px;
-  }
 
-  &--switchCamera {
-    position: absolute;
+
+  .button__close {
     display: flex;
     align-items: center;
     justify-content: center;
     color: #4c4c4c;
-    z-index: 100;
-    right: 20px;
-    top: 20px;
     width: 56px;
     height: 56px;
-    background-color: #fff;
-    border-radius: 28px;
-  }
-}
-
-#video video {
-  position: absolute;
-  width: 100%;
-  height: 75%;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-  border-bottom-left-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
-
-  @media all and (min-width: 720px) {
-    height: 85%;
+    margin-top: -3.5rem;
+    margin-bottom: 2rem;
+    background-color: $primary-color;
+    border-radius: $border-radius-lg;
+    box-shadow: 0 0 20px $primary-color;
   }
 }
