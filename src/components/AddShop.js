@@ -57,7 +57,7 @@ const AddShop = () => {
   const GenerateShop = (props) => {
     const sortACS = props.shops.sort((a, b) => a.name.localeCompare(b.name));
     return sortACS.map((value) =>
-      <Link key={value.name} to={`scanner/${value.name}/${value.url}`} className='Shop--container'>
+      <Link key={value.name} to={`/scanner/${value.name}/${value.url}`} className='Shop--container'>
         <img src={`img/logo/${value.url}`} alt={`${value.name}`} className='Shop--logo' />
         <h2>{value.name}</h2>
       </Link>
