@@ -1,6 +1,35 @@
-html, body, #root, #root>div {
-   background-color: $bg;
-   color: $text;
-   height: 100%;
-   font-family: 'Raleway', sans-serif;
+html, body, #root, #root > div {
+  background-color: $bg;
+  color: $text;
+  height: 100%;
+  font-family: 'Raleway', sans-serif;
+}
+
+.button {
+  &__action {
+    justify-content: center;
+    align-items: center;
+    background-color: $primary-color;
+    box-shadow: 0 0 20px $primary-color;
+    border-radius: 100px;
+
+    &.home {
+      display: flex;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 55px;
+      height: 55px;
+    }
+
+    &.exit {
+      display: inline-flex;
+      padding: 1rem;
+    }
+  }
+
+  &__icon {
+    display: inherit;
+    color: $text;
+  }
 }

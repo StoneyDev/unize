@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { Plus } from 'react-feather';
 
 const ScanButton = () => (
-  <Link to="/shop" className={'ScanButton--container'}>
-    <div className={'ScanButton--icon'}>
-      <Plus size='30' />
+  <Link to="/shop" className="button__action home">
+    <div className="button__icon">
+      <Plus size="28" />
     </div>
   </Link>
 );

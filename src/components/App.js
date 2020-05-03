@@ -1,19 +1,20 @@
 import React from 'react';
 import CardList from './CardList';
 import ScanButton from "./ScanButton";
-import { Container } from "reactstrap";
-
-const test = () => {
-  localStorage.clear();
-}
+import { Container, Row, Col } from "reactstrap";
 
 const App = () => (
-  <Container>
-    <h1 className="font-weight-bold py-4">Unize</h1>
-    <CardList />
-    <ScanButton />
-    <button onClick={test}>clear</button>
-  </Container>
+  <div className="px-3 px-md-0">
+    <Container>
+      <Row>
+        <Col>
+          <h1 className="font-weight-bold py-4">Unize</h1>
+        </Col>
+      </Row>
+      <CardList/>
+      <ScanButton/>
+    </Container>
+  </div>
 );
 
 export default App;

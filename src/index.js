@@ -11,12 +11,10 @@ import CardDetail from "./components/CardDetail";
 
 const routing = (
   <Router>
-    <div>
-      <Route exact path="/" component={App} />
-      <Route path="/scanner/(edit)?/:name/:img?" component={Scanner} />
-      <Route path="/shop" component={AddShop} />
-      <Route path="/card/:id" component={CardDetail} />
-    </div>
+    <Route exact path="/" component={App} />
+    <Route path="/scanner/(edit)?/:name/:img?" component={Scanner} />
+    <Route path="/shop" component={AddShop} />
+    <Route path="/card/:id" component={CardDetail} />
   </Router>
 );
 

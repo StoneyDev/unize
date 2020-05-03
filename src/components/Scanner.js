@@ -34,11 +34,7 @@ const Scanner = (props) => {
     // if Quagga is at least 90% certain that it read correctly, then accept the code.
     const err = getMedianOfCodeErrors(result.codeResult.decodedCodes);
     if (err < 0.1) {
-      if (props.match.params[0]) {
-        const search = existing.find(val => val.id === props.match.params.name);
-        search.id = result.codeResult.code;
-        search.format = format; // In case Quaggajs scans the wrong barcode.
-      } else {
+      if (!props.match.params[0]) { // add
         const data = {
           "id": result.codeResult.code,
           "format": format,
@@ -46,8 +42,11 @@ const Scanner = (props) => {
           "img": props.match.params.img ? props.match.params.img : 'default.svg'
         };
         existing.push(data);
+      } else { // update
+        const search = existing.find(val => val.id === props.match.params.name);
+        search.id = result.codeResult.code;
+        search.format = format; // In case Quaggajs scans the wrong barcode.
       }
-
       localStorage.setItem('list', JSON.stringify(existing));
 
       Quagga.offDetected(onDetected);
@@ -89,11 +88,8 @@ const Scanner = (props) => {
           return;
         }
         onInitSuccess();
-
       });
       Quagga.onDetected(onDetected);
-    } else {
-      setVideoError(true);
     }
   }, []);
 

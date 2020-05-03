@@ -37,7 +37,7 @@ const AddShop = () => {
       name: 'Picard'
     },
     {
-      url: 'geant_casino.svg',
+      url: 'geant-casino.svg',
       name: 'Géant Casino'
     },
     {
@@ -56,17 +56,12 @@ const AddShop = () => {
 
   const GenerateShop = (props) => {
     const sortACS = props.shops.sort((a, b) => a.name.localeCompare(b.name));
-    const listShop = sortACS.map((value) =>
+    return sortACS.map((value) =>
       <Link key={value.name} to={`scanner/${value.name}/${value.url}`} className='Shop--container'>
         <img src={`img/logo/${value.url}`} alt={`${value.name}`} className='Shop--logo' />
         <h2>{value.name}</h2>
       </Link>
     );
-    return (
-      <div>
-        {listShop}
-      </div>
-    )
   }
 
   return (
