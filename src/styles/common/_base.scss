@@ -1,8 +1,16 @@
 html, body, #root, #root > div {
-  background-color: $bg;
   color: $text;
   height: 100%;
   font-family: 'Raleway', sans-serif;
+}
+
+a {
+  color: $text;
+
+  &:hover {
+    color: $text;
+    text-decoration: none;
+  }
 }
 
 .button {

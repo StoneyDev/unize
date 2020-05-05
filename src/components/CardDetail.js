@@ -1,26 +1,26 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Barcode from 'react-barcode';
-import {Container, Row, Col, Dropdown, DropdownMenu, DropdownToggle, DropdownItem} from 'reactstrap';
-import {X, MoreVertical} from "react-feather";
-import {Link, useHistory} from "react-router-dom";
+import { Container, Row, Col, Dropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap';
+import { X, MoreVertical } from "react-feather";
+import { Link, useHistory } from "react-router-dom";
 
 const CardDetail = (props) => {
   let history = useHistory();
   const obj = JSON.parse(localStorage.getItem('list'));
   const result = obj.find(val => val.id === props.match.params.id);
 
-  const deleteData = () => {
+  const deleteCard = () => {
     const newArrayData = obj.filter(val => val.id !== result.id);
     localStorage.setItem('list', JSON.stringify(newArrayData));
     history.push("/");
   }
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [ dropdownOpen, setDropdownOpen ] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
   return (
     <Container>
-      <Row className="text-right py-3">
+      <Row className="text-right pt-3">
         <Col>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle color="white">
@@ -31,9 +31,9 @@ const CardDetail = (props) => {
                 <Link to={`/scanner/edit/${result.id}`}>Modifier</Link>
               </DropdownItem>
               <DropdownItem
-                onClick={e =>
+                onClick={(e) =>
                   window.confirm("Voulez-vous vraiment supprimer cette carte ?") &&
-                  deleteData(e)
+                  deleteCard(e)
                 }>
                 Supprimer
               </DropdownItem>
@@ -47,7 +47,7 @@ const CardDetail = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col md={{size: 6, offset: 3}}>
           <div className="beta">
             <div className="beta__body">
               <Barcode
@@ -64,7 +64,7 @@ const CardDetail = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col className="mt-4 text-center">
+        <Col className="p-4 text-center">
           <Link to="/" className="button__action exit">
             <div className="button__icon">
               <X size="28" />

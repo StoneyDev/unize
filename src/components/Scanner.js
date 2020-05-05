@@ -20,7 +20,7 @@ function getMedianOfCodeErrors(decodedCodes) {
 const Scanner = (props) => {
   let history = useHistory();
   const [ videoError, setVideoError ] = useState(false);
-  const [ light, setLight] = useState(true);
+  const [ light, setLight ] = useState(true);
 
   const onInitSuccess = () => {
     Quagga.start();
@@ -39,7 +39,7 @@ const Scanner = (props) => {
           "id": result.codeResult.code,
           "format": format,
           "name": props.match.params.name,
-          "img": props.match.params.img ? props.match.params.img : 'default.svg'
+          "img": props.match.params.img
         };
         existing.push(data);
       } else { // update
@@ -64,12 +64,14 @@ const Scanner = (props) => {
       track.applyConstraints({ advanced: [ { torch: light } ] });
     }
   }
-
   useEffect(() => {
     window.onpopstate = () => {
+      Quagga.offDetected(onDetected);
       Quagga.stop();
     };
+  });
 
+  useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       Quagga.init({
         inputStream : {
@@ -94,30 +96,34 @@ const Scanner = (props) => {
   }, []);
 
   return (
-    <div className="scanner">
-      <div className="scanner__renderVideo">
-        {videoError ?
-          <CameraOff className="scanner__errorIcon" />
-          :
-          <div id="video" />
-        }
-      </div>
-      <div className="scanner__message">
-        <Link to="/" className="button__close">
-          <X />
-        </Link>
-
-        {<button onClick={toggleTorch}>Torche</button>}
-
-        {videoError ?
-          <p>
-            <strong>Impossible d’accèder à votre caméra !</strong>
-          </p>
-          :
-          <p>
-            <strong>Scanner votre carte fidélité</strong>
-          </p>
-        }
+    <div className="bg">
+      <div className="scanner">
+        <div className="scanner__renderVideo">
+          {videoError ?
+            <CameraOff className="scanner__error" />
+            :
+            <div>
+              <button onClick={toggleTorch} className="scanner__torch">
+                <Zap size="28" />
+              </button>
+              <div id="video" />
+            </div>
+          }
+        </div>
+        <div className="scanner__message">
+          <Link to="/" className="button__close">
+            <X />
+          </Link>
+          {videoError ?
+            <p className="mb-0 mt-2">
+              <strong>Impossible d’accèder à votre caméra !</strong>
+            </p>
+            :
+            <p className="mb-0 mt-2">
+              <strong>Scanner votre carte fidélité</strong>
+            </p>
+          }
+        </div>
       </div>
     </div>
   );

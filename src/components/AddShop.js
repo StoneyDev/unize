@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Col, Container, Row } from "reactstrap";
 
 const AddShop = () => {
 
@@ -18,7 +19,7 @@ const AddShop = () => {
     },
     {
       url: 'e-leclerc.svg',
-      name: 'E Leclerc'
+      name: 'E.Leclerc'
     },
     {
       url: 'monoprix.svg',
@@ -49,7 +50,7 @@ const AddShop = () => {
       name: 'Yves Rocher'
     },
     {
-      url: 'go_sport',
+      url: 'go_sport.png',
       name: 'GO Sport'
     },
   ];
@@ -57,17 +58,29 @@ const AddShop = () => {
   const GenerateShop = (props) => {
     const sortACS = props.shops.sort((a, b) => a.name.localeCompare(b.name));
     return sortACS.map((value) =>
-      <Link key={value.name} to={`/scanner/${value.name}/${value.url}`} className='Shop--container'>
-        <img src={`img/logo/${value.url}`} alt={`${value.name}`} className='Shop--logo' />
-        <h2>{value.name}</h2>
+      <Link key={value.name} to={`/scanner/${value.name}/${value.url}`}>
+        <Row className="shop__container">
+          <Col xs="4" className="d-flex justify-content-center">
+            <img src={`img/logo/${value.url}`} alt={`${value.name}`} className="shop__logo" />
+          </Col>
+          <Col>
+            <h1 className="shop__name">{value.name}</h1>
+          </Col>
+        </Row>
       </Link>
     );
   }
 
   return (
-    <div>
-      <GenerateShop shops={listShop} />
-      <p>Un magasin est manquant ? Envoyer un email à yann.deroues@gmail.com</p>
+    <div className="px-3 px-md-0">
+      <Container>
+        <Row>
+          <Col>
+            <GenerateShop shops={listShop}/>
+            <p>Un magasin est manquant ? Envoyer un email à yann.deroues@gmail.com</p>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }

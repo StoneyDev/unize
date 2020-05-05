@@ -1,67 +1,72 @@
+.bg {
+  background-color: $secondary-color;
+}
+
 .scanner {
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  overflow: hidden;
 
   &__renderVideo {
-    background-color: $secondary-color;
-    height: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @media all and (min-width: 720px) {
-      height: 85%;
-    }
-
     video {
       position: absolute;
       width: 100%;
-      height: 90%;
+      height: 100%;
       z-index: 0;
       top: 0;
       left: 0;
       object-fit: cover;
-
-      @media all and (min-width: 720px) {
-        height: 85%;
-      }
     }
   }
 
-  &__errorIcon {
+  &__error {
     color: $text;
-    width: 150px;
+    width: 120px;
     height: auto;
   }
 
+  &__torch {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: .5rem;
+    z-index: 10;
+    border: 0;
+    background-color: transparent;
+    color: #fff;
+  }
+
   &__message {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     height: 20%;
     text-align: center;
     display: flex;
-    flex-direction: column;
     background: #fff;
     justify-content: center;
     align-items: center;
-    border-top-left-radius: $border-radius-lg;
-    border-top-right-radius: $border-radius-lg;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
 
     @media all and (min-width: 720px) {
       height: 15%;
     }
   }
 
-
-
   .button__close {
     display: flex;
+    position: absolute;
     align-items: center;
     justify-content: center;
+    top: -1.8rem;
     color: #4c4c4c;
     width: 56px;
     height: 56px;
-    margin-top: -3.5rem;
-    margin-bottom: 2rem;
-    background-color: $primary-color;
-    border-radius: $border-radius-lg;
-    box-shadow: 0 0 20px $primary-color;
+    background-color: #FAC650;
+    border-radius: 30px;
+    box-shadow: 0 0 20px #FAC650;
   }
 }
