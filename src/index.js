@@ -1,20 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, BrowserRouter as Router } from 'react-router-dom'
-import App from './components/App';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/main.scss'
+import './styles/global.scss';
 import * as serviceWorker from './serviceWorker';
-import Scanner from "./components/Scanner";
-import AddShop from "./components/AddShop";
-import CardDetail from "./components/CardDetail";
+import Home from './scenes/Home/Home';
+import Scanner from './scenes/Scanner/Scanner';
+import AddShop from './scenes/AddShop/AddShop';
+import CardInfo from './scenes/CardInfo/CardInfo';
+import NotFound from './scenes/NotFound/NotFound';
 
 const routing = (
   <Router>
-    <Route exact path="/" component={App} />
-    <Route path="/scanner/(edit)?/:name/:img?" component={Scanner} />
-    <Route path="/shop" component={AddShop} />
-    <Route path="/card/:id" component={CardDetail} />
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/scanner" exact strict component={Scanner} />
+      <Route path="/shop" exact strict component={AddShop} />
+      <Route path="/card/:id" component={CardInfo} />
+      <Route component={NotFound} />
+    </Switch>
   </Router>
 );
 
