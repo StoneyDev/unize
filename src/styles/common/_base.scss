@@ -1,0 +1,66 @@
+html,
+body,
+#root,
+#root > div {
+  color: $text;
+  height: 100%;
+  font-family: 'Raleway', sans-serif;
+}
+
+a {
+  color: $text;
+
+  &:hover {
+    color: $text;
+    text-decoration: none;
+  }
+}
+
+.button {
+  &__action {
+    justify-content: center;
+    align-items: center;
+    background-color: $primary-color;
+    box-shadow: 0 0 20px $primary-color;
+    border-radius: 100px;
+
+    &.home {
+      display: flex;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 55px;
+      height: 55px;
+    }
+
+    &.exit {
+      display: inline-flex;
+      padding: 1rem;
+    }
+
+    &.text {
+      display: inline-flex;
+      padding: 0.8rem 2rem;
+      font-weight: bold;
+    }
+  }
+
+  &__icon {
+    display: inherit;
+    color: $text;
+  }
+}
+
+.logo {
+  max-width: 100%;
+  max-height: 40px;
+
+  @media all and (min-width: 720px) {
+    max-height: 50px;
+    height: 50px;
+  }
+}
+
+.bg-light-grey {
+  background-color: $secondary-color;
+}

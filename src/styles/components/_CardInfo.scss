@@ -1,0 +1,22 @@
+.box {
+  border: 3px solid $secondary-color;
+  border-radius: $border-radius;
+
+  &__body {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__footer {
+    border-top: 3px solid $secondary-color;
+    padding: 1.5rem;
+    text-align: center;
+
+    h1 {
+      font-size: 1.7em;
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+  }
+}
