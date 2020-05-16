@@ -40,11 +40,15 @@
 .filter {
   writing-mode: vertical-lr;
   transform: rotate(-180deg);
-  font-weight: bolder;
-  color: $text-foncy;
+  height: max-content;
 
-  &.active {
-    color: $text;
+  &__link {
+    font-weight: bolder;
+    color: $text-foncy;
+
+    &.active {
+      color: $text;
+    }
   }
 }
 

@@ -28,9 +28,9 @@ Pour cela, nul besoin d'aller sur le Play Store ou l'App Store, utiliser simplem
 1. Aller sur le site (https://unize.netlify.app)
 2. Installation en fonction des navigateurs
 
-   1. #### **Chrome, Brave**
+   1. #### **Brave, Chrome**
 
-   `Dans les paramètres du navigateur sélectionner "**Ajouter à l'écran d'accueil**"`
+   `Dans les paramètres du navigateur sélectionner "Ajouter à l'écran d'accueil"`
 
    2. #### **Firefox**
 
@@ -42,23 +42,10 @@ Pour cela, nul besoin d'aller sur le Play Store ou l'App Store, utiliser simplem
 
 ### Compatibilité
 
-| Navigateur Web      | Version |                       Testé                        |
-| :------------------ | :-----: | :------------------------------------------------: |
-| Brave               |   1.8   |                         ✔                          |
-| Chrome              |   81    |                         ✔                          |
-| Firefox (Classique) |   75    |                         ✔                          |
-| Safari              |   ❔    |                         ❔                         |
-| Opera (Classique)   |   ❔    |                         ❔                         |
-| Edge (Chromium)     |   ❔    |                         ❔                         |
-| IE                  |   11    | <img src="./assets/1157_risitas.png" width="50" /> |
-
-| Mobile              | Version | Testé |
-| :------------------ | :-----: | :---: |
-| Brave               |   1.7   |   ✔   |
-| Chrome              |   81    |   ✔   |
-| Firefox (Classique) |  68.8   |   ✔   |
-| Safari              |   ❔    |  ❔   |
-| Opera (Classique)   |   ❔    |  ❔   |
+| Bureau  | Brave | Firefox | Opera | Edge (Chromium) | Safari |                 IE & Edge (normal)                 | --- | Mobile  | Brave | Firefox | Opera | Safari |
+| ------- | :---: | :-----: | :---: | :-------------: | :----: | :------------------------------------------------: | --- | :-----: | :---: | :-----: | :---: | :----: |
+| Version |  1.8  |   75    |  ❔   |       ❔        |   ❔   |                      11 / 44                       | \   | Version |  1.7  |  68.8   |  ❔   |   ❔   |
+| Testé   |   ✔   |    ✔    |  ❔   |       ❔        |   ❔   | <img src="./assets/1157_risitas.png" width="50" /> | \   |  Testé  |   ✔   |    ✔    |  ❔   |   ❔   |
 
 ---
 

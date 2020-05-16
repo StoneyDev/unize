@@ -29,7 +29,7 @@ const CardList = () => {
 
   return (
     <Row>
-      <Col xs="auto">
+      <Col xs="auto" className="filter">
         <Filter />
       </Col>
       <Col className="pl-1 pl-md-3">

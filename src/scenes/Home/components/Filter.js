@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Filter = () => (
-  <div>
-    <div className="filter active">Tous</div>
-    <div className="filter mt-4">Récurrent</div>
+  <div className="d-flex">
+    <div className="filter__link">Récurrent</div>
+    <div className="filter__link mt-4 active">Tous</div>
   </div>
 );
 
