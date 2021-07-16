@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
+import { Col, Container, Row } from 'reactstrap';
 
 const AddShop = () => {
   const listShop = [
@@ -55,17 +55,12 @@ const AddShop = () => {
   ];
 
   const ShopItem = (props) => {
-    // eslint-disable-next-line react/prop-types
     const sortACS = props.shops.sort((a, b) => a.name.localeCompare(b.name));
-    return sortACS.map((value) => (
-      <Link key={value.id} to={`/scanner?name=${value.name}&img=${value.img}`}>
+    return sortACS.map((value, index) => (
+      <Link key={index} to={`/scanner?name=${value.name}&img=${value.img}`}>
         <Row className="shop__container">
           <Col xs="4" className="d-flex justify-content-center">
-            <img
-              src={`img/logo/${value.img}`}
-              alt={`Logo de ${value.name}`}
-              className="logo"
-            />
+            <img src={`img/logo/${value.img}`} alt={`Logo de ${value.name}`} className="logo" />
           </Col>
           <Col>
             <h1 className="shop__name">{value.name}</h1>
@@ -81,10 +76,7 @@ const AddShop = () => {
         <Row>
           <Col>
             <ShopItem shops={listShop} />
-            <p className="text-center my-5">
-              Un magasin est manquant ? Envoyez un email à
-              yann.deroues@gmail.com
-            </p>
+            <p className="text-center my-5">Un magasin est manquant ? Envoyez un email à yann.deroues@gmail.com</p>
           </Col>
         </Row>
       </Container>

@@ -87,35 +87,33 @@ const Scanner = () => {
   }, [close]);
 
   useEffect(() => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.permissions.query({ name: 'camera' }).then((res) => {
-        if (res.state === 'granted') {
-          Quagga.init(
-            {
-              inputStream: {
-                name: 'Live',
-                type: 'LiveStream',
-                target: document.querySelector('#video'),
-              },
-              numOfWorkers: navigator.hardwareConcurrency,
-              locate: true,
-              decoder: {
-                readers: ['ean_reader', 'code_128_reader'],
-              },
-            },
-            (err) => {
-              if (err) {
-                setVideoError(true);
-                return;
-              }
-              onInitSuccess();
-            }
-          );
-          Quagga.onDetected(onDetected);
-        } else {
-          setVideoError(true);
+    const target = document.querySelector('#video');
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia && target) {
+      Quagga.init(
+        {
+          inputStream: {
+            name: 'Live',
+            type: 'LiveStream',
+            target,
+          },
+          numOfWorkers: navigator.hardwareConcurrency,
+          locate: true,
+          decoder: {
+            readers: ['ean_reader', 'code_128_reader'],
+          },
+        },
+        (err) => {
+          if (err) {
+            setVideoError(true);
+            return;
+          }
+          onInitSuccess();
         }
-      });
+      );
+      Quagga.onDetected(onDetected);
+    } else {
+      setVideoError(true);
     }
   }, [onDetected]);
 
