@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { X, Zap, CameraOff } from 'react-feather';
 import Quagga from '@ericblade/quagga2';
+import React, { useCallback, useEffect, useState } from 'react';
+import { CameraOff, X, Zap } from 'react-feather';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 function getMedian(arr) {
   arr.sort((a, b) => a - b);
@@ -13,9 +13,7 @@ function getMedian(arr) {
 }
 
 function getMedianOfCodeErrors(decodedCodes) {
-  const errors = decodedCodes
-    .filter((x) => x.error !== undefined)
-    .map((x) => x.error);
+  const errors = decodedCodes.filter((x) => x.error !== undefined).map((x) => x.error);
   return getMedian(errors);
 }
 
@@ -33,41 +31,44 @@ const Scanner = () => {
     Quagga.start();
   };
 
-  const onDetected = (result) => {
-    const format = result.codeResult.format.replace(/_/g, '');
-    let existing = localStorage.getItem('listShopCard');
-    existing = existing ? JSON.parse(existing) : [];
+  const onDetected = useCallback(
+    (result) => {
+      const format = result.codeResult.format.replace(/_/g, '');
+      let existing = localStorage.getItem('listShopCard');
+      existing = existing ? JSON.parse(existing) : [];
 
-    // if Quagga is at least 90% certain that it read correctly, then accept the code.
-    const err = getMedianOfCodeErrors(result.codeResult.decodedCodes);
-    if (err < 0.1) {
-      if (!query.get('edit')) {
-        // add
-        const data = {
-          id: result.codeResult.code,
-          format,
-          name: query.get('name'),
-          img: query.get('img'),
-        };
-        existing.push(data);
-      } else {
-        // update
-        const search = existing.find((val) => val.id === query.get('id'));
-        search.id = result.codeResult.code;
-        search.format = format; // In case Quaggajs scans the wrong barcode.
+      // if Quagga is at least 90% certain that it read correctly, then accept the code.
+      const err = getMedianOfCodeErrors(result.codeResult.decodedCodes);
+      if (err < 0.1) {
+        if (!query.get('edit')) {
+          // add
+          const data = {
+            id: result.codeResult.code,
+            format,
+            name: query.get('name'),
+            img: query.get('img'),
+          };
+          existing.push(data);
+        } else {
+          // update
+          const search = existing.find((val) => val.id === query.get('id'));
+          search.id = result.codeResult.code;
+          search.format = format; // In case Quaggajs scans the wrong barcode.
+        }
+        localStorage.setItem('listShopCard', JSON.stringify(existing));
+
+        Quagga.offDetected(onDetected);
+        Quagga.stop();
+        history.push('/');
       }
-      localStorage.setItem('listShopCard', JSON.stringify(existing));
+    },
+    [history, query]
+  );
 
-      Quagga.offDetected(onDetected);
-      Quagga.stop();
-      history.push('/');
-    }
-  };
-
-  const close = () => {
+  const close = useCallback(() => {
     Quagga.offDetected(onDetected);
     Quagga.stop();
-  };
+  }, [onDetected]);
 
   const toggleFlashlight = () => {
     // Bug ?: Can't switch off the flashlight when the flux is running
@@ -83,34 +84,40 @@ const Scanner = () => {
     window.onpopstate = () => {
       close();
     };
-  });
+  }, [close]);
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      Quagga.init(
-        {
-          inputStream: {
-            name: 'Live',
-            type: 'LiveStream',
-            target: document.querySelector('#video'),
-          },
-          numOfWorkers: navigator.hardwareConcurrency,
-          locate: true,
-          decoder: {
-            readers: ['ean_reader', 'code_128_reader'],
-          },
-        },
-        (err) => {
-          if (err) {
-            setVideoError(true);
-            return;
-          }
-          onInitSuccess();
+      navigator.permissions.query({ name: 'camera' }).then((res) => {
+        if (res.state === 'granted') {
+          Quagga.init(
+            {
+              inputStream: {
+                name: 'Live',
+                type: 'LiveStream',
+                target: document.querySelector('#video'),
+              },
+              numOfWorkers: navigator.hardwareConcurrency,
+              locate: true,
+              decoder: {
+                readers: ['ean_reader', 'code_128_reader'],
+              },
+            },
+            (err) => {
+              if (err) {
+                setVideoError(true);
+                return;
+              }
+              onInitSuccess();
+            }
+          );
+          Quagga.onDetected(onDetected);
+        } else {
+          setVideoError(true);
         }
-      );
-      Quagga.onDetected(onDetected);
+      });
     }
-  }, []);
+  }, [onDetected]);
 
   return (
     <div className="bg-light-grey">
@@ -120,11 +127,7 @@ const Scanner = () => {
             <CameraOff className="scanner__error" />
           ) : (
             <div>
-              <button
-                type="button"
-                onClick={toggleFlashlight}
-                className="scanner__torch"
-              >
+              <button type="button" onClick={toggleFlashlight} className="scanner__torch">
                 <Zap size="28" />
               </button>
               <div id="video" />
