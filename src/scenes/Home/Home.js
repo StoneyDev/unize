@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import CardList from './components/CardList/CardList';
 import ScanButton from '../../components/Button/components/ScanButton/ScanButton';
+import CardList from './components/CardList/CardList';
 import Title from './components/Title';
 
 const Home = () => (

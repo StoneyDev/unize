@@ -34,3 +34,5 @@ build/Release
 node_modules
 
 dist/bundle.js
+
+build
